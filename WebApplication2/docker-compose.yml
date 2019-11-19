@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  webapplication2:
+    image: webapplication2-UPPERCASE
+    build:
+      context: .
+      dockerfile: WebApplication2\Dockerfile

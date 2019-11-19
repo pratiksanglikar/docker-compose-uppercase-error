@@ -1,0 +1,39 @@
+services:
+  webapplication2:
+    build:
+      context: C:\Users\prsangli\source\repos\WebApplication2
+      dockerfile: WebApplication2\Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: WebApplication2
+      target: base
+    container_name: WebApplication2
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus
+      /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646 /LogDebuggeeOutputToStdOut
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: c:\.nuget\fallbackpackages
+      NUGET_PACKAGES: C:\.nuget\packages
+    image: webapplication2-UPPERCASE:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath c:\.nuget\packages
+        --additionalProbingPath c:\.nuget\fallbackpackages  "C:\app\bin\Debug\netcoreapp3.1\WebApplication2.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: C:\remote_debugger\x64\utils\KillProcess.exe
+        dotnet.exe
+      com.microsoft.visualstudio.debuggee.program: '"C:\Program Files\dotnet\dotnet.exe"'
+      com.microsoft.visualstudio.debuggee.workingdirectory: C:\app
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - C:\Users\prsangli\AppData\Roaming\ASP.NET\Https:C:\Users\ContainerUser\AppData\Roaming\ASP.NET\Https:ro
+    - C:\Users\prsangli\AppData\Roaming\Microsoft\UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro
+    - C:\Users\prsangli\source\repos\WebApplication2\WebApplication2:C:\app:rw
+    - C:\Users\prsangli\onecoremsvsmon\16.5.0066.0:C:\remote_debugger:ro
+    - C:\Users\prsangli\source\repos\WebApplication2:C:\src:rw
+    - C:\Program Files\dotnet\sdk\NuGetFallbackFolder:c:\.nuget\fallbackpackages:ro
+    - C:\Users\prsangli\.nuget\packages:c:\.nuget\packages:ro
+version: '3.4'
